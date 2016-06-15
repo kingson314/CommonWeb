@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/hibernate/hibernate-commons-annotations-4.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/hibernate-core-4.1.6.Final.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="lib/json/jackson-all-1.9.0.jar"/>
+	<classpathentry kind="lib" path="lib/spring/com.springsource.org.apache.commons.fileupload-1.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/spring/com.springsource.org.apache.commons.io-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/spring/jstl.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-aop-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-aspects-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-beans-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-context-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-context-support-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-core-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-expression-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-instrument-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-instrument-tomcat-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-jdbc-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-jms-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-messaging-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-orm-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-oxm-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-test-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-tx-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-web-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-webmvc-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-webmvc-portlet-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/spring-websocket-4.0.0.M2.jar"/>
+	<classpathentry kind="lib" path="lib/spring/standard-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_1.3">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.utility"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
