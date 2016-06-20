@@ -95,5 +95,4 @@ public interface IBaseService<Entity extends SuperEntity> {
 	public int getPreVal(String SequenceTable,String tableName);
 
 	public int getCurVal(String SequenceTable,String tableName);
-
 }

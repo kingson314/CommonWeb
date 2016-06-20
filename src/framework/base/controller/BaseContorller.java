@@ -168,7 +168,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 		Map<String, String[]> map = request.getParameterMap();  
 	    for(Map.Entry<String, String[]>entry:map.entrySet()){
 	    	if("_".equals(entry.getKey().trim()))continue;
-	    	if("limit".equals(entry.getKey())||"curPage".equals(entry.getKey())||"start".equals(entry.getKey())||"end".equals(entry.getKey())){
+	    	if("pageNumber".equals(entry.getKey())||"pageSize".equals(entry.getKey())||"offset".equals(entry.getKey())||"limit".equals(entry.getKey())||"curPage".equals(entry.getKey())||"start".equals(entry.getKey())||"end".equals(entry.getKey())){
 	    		this.pageParams.put(entry.getKey(),Integer.valueOf(entry.getValue()[0]));
 	    	}else{
 	        	if(entry.getValue()!=null){
