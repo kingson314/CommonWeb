@@ -27,7 +27,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 	protected HttpServletResponse response;
 	protected HttpSession session;
 	protected Map<String, Object> mapParams ;//非分页的其他参数
-	protected Map<String, Integer> pageParams ;//分页参数 [limit,start,end,curPage]4个关键字
+	protected Map<String, Integer> pageParams ;//分页参数 [pageSize,start,end,pageIndex]4个关键字
 	protected List<HashMap<String, Object>> listUpload = null;
 
 	@ModelAttribute
@@ -168,7 +168,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 		Map<String, String[]> map = request.getParameterMap();  
 	    for(Map.Entry<String, String[]>entry:map.entrySet()){
 	    	if("_".equals(entry.getKey().trim()))continue;
-	    	if("pageNumber".equals(entry.getKey())||"pageSize".equals(entry.getKey())||"offset".equals(entry.getKey())||"limit".equals(entry.getKey())||"curPage".equals(entry.getKey())||"start".equals(entry.getKey())||"end".equals(entry.getKey())){
+	    	if("pageNumber".equals(entry.getKey())||"offset".equals(entry.getKey())||"pageSize".equals(entry.getKey())||"pageIndex".equals(entry.getKey())||"start".equals(entry.getKey())||"end".equals(entry.getKey())){
 	    		this.pageParams.put(entry.getKey(),Integer.valueOf(entry.getValue()[0]));
 	    	}else{
 	        	if(entry.getValue()!=null){
