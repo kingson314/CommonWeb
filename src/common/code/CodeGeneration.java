@@ -12,14 +12,11 @@ public class CodeGeneration {
 	public static void main(String[] args) {
 		
 		Entity entity=new Entity();
-		entity.setTableName("config_page");
-		entity.setEntityName("pageconfig");
-		entity.setPackagePath("com.config.pageconfig");
-		entity.setExtjsPackagePath("com.system.process");
-		entity.setBasePathSrc("E:\\360云盘\\百度云\\Projects\\Repository\\src\\com\\config\\");
-		entity.setBasePathExtjs("E:\\360云盘\\百度云\\Projects\\ProcessDesigner\\WebRoot\\com\\system\\");
-		entity.setBaseUrl("/pageconfig");
-		entity.setType("grid");
+		entity.setTableName("patentwipo");
+		entity.setEntityName("WIPO");
+		entity.setPackagePath("com.patent.wipo");
+		entity.setBasePathSrc("D:\\GitHub\\Repository\\src\\com\\patent\\");
+		entity.setBaseUrl("/wipo");
 		entity.setMenuName("页面配置");
 		entity.init();
 		UtilLog.logDebug(entity.getEntityName());
@@ -56,10 +53,6 @@ public class CodeGeneration {
 		StringBuilder codeHibernate=CodeHibernate.getInstance().getCode(entity);
 		UtilFile.writeFile(entity.getPathHibernate(), codeHibernate);
 		UtilLog.logDebug(entity.getPathHibernate());		
-		//extjs
-//		StringBuilder codeExtjs=CodeExtjs.getInstance().getCode(entity);
-//		UtilFile.writeFile(entity.getPathExtjs(), codeExtjs);
-//		UtilLog.logDebug(entity.getPathExtjs());
 		
 		UtilLog.logDebug("done");
 	}

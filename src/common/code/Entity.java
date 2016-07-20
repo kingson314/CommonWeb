@@ -45,8 +45,6 @@ public class Entity {
 	private String pathEntity;
 	// hibernate配置文件的路径
 	private String pathHibernate;
-	// Extjs的文件路径
-	private String pathExtjs;
 	// 配置sys_menu表的url路径
 	private String menuUrl;
 
@@ -62,11 +60,6 @@ public class Entity {
 		this.pathHibernate = this.basePathSrc + this.entityName.toLowerCase() + "/entity/hibernate.xml";
 		this.pathIService= this.basePathSrc + this.entityName.toLowerCase() + "/service/I" + UtilString.upperFirstChar(this.entityName) + "Service.java";
 		this.pathService = this.basePathSrc + this.entityName.toLowerCase() + "/service/" + UtilString.upperFirstChar(this.entityName) + "Service.java";
-
-		if (this.basePathExtjs.lastIndexOf("/") < 0) {
-			this.basePathExtjs += "/";
-		}
-		this.pathExtjs = this.basePathExtjs + this.entityName.toLowerCase() + "/" + UtilString.upperFirstChar(this.entityName) + ".js";
 	}
 
 	public String getTableName() {
@@ -197,13 +190,6 @@ public class Entity {
 		this.menuUrl = menuUrl;
 	}
 
-	public String getPathExtjs() {
-		return pathExtjs;
-	}
-
-	public void setPathExtjs(String pathExtjs) {
-		this.pathExtjs = pathExtjs;
-	}
 
 	public String getPackagePath() {
 		return packagePath;
