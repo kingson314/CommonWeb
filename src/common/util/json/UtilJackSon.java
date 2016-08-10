@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.annotate.JsonFilter;
 import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
 import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.core.annotation.AnnotationUtils;
 
 /**
@@ -112,5 +113,49 @@ public class UtilJackSon {
 		getObjectMapper().writer(
 				new SimpleFilterProvider().addFilter(AnnotationUtils.getValue(AnnotationUtils.findAnnotation(value.getClass(), JsonFilter.class)).toString(), SimpleBeanPropertyFilter
 						.serializeAllExcept(properties2Exclude))).writeValue(out, value);
+	}
+	
+	/**
+	 * 使用泛型方法，把json字符串转换为相应的JavaBean对象。
+	 * (1)转换为普通JavaBean：readValue(json,Student.class)
+	 * (2)转换为List,如List<Student>,将第二个参数传递为Student
+	 * [].class.然后使用Arrays.asList();方法把得到的数组转换为特定类型的List
+	 * 
+	 * @param jsonStr
+	 * @param valueType
+	 * @return
+	 */
+	public static <T> T toBean(String jsonStr, Class<T> valueType) {
+		if (objectMapper == null) {
+			objectMapper = new ObjectMapper();
+		}
+
+		try {
+			return objectMapper.readValue(jsonStr, valueType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	/**
+	 * json数组转List
+	 * @param jsonStr
+	 * @param valueTypeRef
+	 * @return
+	 */
+	public static <T> T toObj(String jsonStr, TypeReference<T> valueTypeRef){
+		if (objectMapper == null) {
+			objectMapper = new ObjectMapper();
+		}
+
+		try {
+			return objectMapper.readValue(jsonStr, valueTypeRef);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

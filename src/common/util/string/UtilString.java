@@ -98,7 +98,14 @@ public class UtilString {
 			return then;
 		return str;
 	}
-
+	// 判断null字符串返回指定值
+	public static String isNil(Object str, String then) {
+		if (str == null)
+			return then;
+		else if (str.equals(""))
+			return then;
+		return str.toString();
+	}
 	// 判断null字符串返回空值
 	public static String isNil(String str) {
 		if (str == null)
