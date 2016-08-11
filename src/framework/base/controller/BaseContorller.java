@@ -3,7 +3,6 @@ package framework.base.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,15 +10,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import common.util.conver.UtilConver;
 import common.util.json.UtilJackSon;
 import common.util.log.UtilLog;
 import common.util.string.UtilString;
+
 import framework.base.entity.SuperEntity;
 import framework.base.support.Result;
+import framework.base.support.upload.FileBean;
+import framework.base.support.upload.Upload;
 
 public abstract class BaseContorller<Entity extends SuperEntity> {
 
@@ -128,42 +135,29 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 	 * @return ReqData 返回类型
 	 * @throws
 	 */
-	@SuppressWarnings( { "deprecation", "unchecked" })
 	private void getHttpServletRequestData() {
 		String charsetName = request.getCharacterEncoding();
 		if (charsetName == null) {
 			charsetName = "utf-8";
 		}
-		String contentType = request.getContentType();
-		String reMethod = request.getMethod();
-
-		if ((contentType != null) && (contentType.startsWith("multipart/form-data")) && (reMethod.equalsIgnoreCase("post"))) {
-			// 二进制 multipart/form-data
-			DiskFileUpload df = new DiskFileUpload();
-			df.setHeaderEncoding(charsetName);
-			// 上传文件的最大字节数（可设得很大，唯一的不良影响是网页反应时间较长）
-			df.setSizeMax(100 * 1024 * 1024);
-			// 内存Buffer的最大字节数（不可以设得太大，否则会占用JVM内存而导致溢出，但太小则会使上传时间拖长）
-			df.setSizeThreshold(1 * 1024 * 1024);
-			List<?> reqPars = null;
-			try {
-				reqPars = df.parseRequest(request);
-				this.listUpload = new ArrayList<HashMap<String, Object>>();
-				for (int i = 0; i < reqPars.size(); i++) {
-					FileItem it = (FileItem) reqPars.get(i);
-					if (it.isFormField()) {
-						String name = it.getFieldName();
-						if (name.equals("method")) {
-
-						} else {
-							this.mapParams.put(it.getFieldName(), it.getString(charsetName).trim());// 文本字段需要转码
-						}
-					}
-				}
-
-			} catch (Exception e) {
-				UtilLog.logError("解析二进制form时出错：", e);
-			}
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		if (isMultipart) {
+			// 转型为MultipartHttpRequest  
+	        try {  
+	            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;  
+	            List<MultipartFile> fileList = multipartRequest.getFiles("file");  
+	            for (MultipartFile mf : fileList) {  
+	                if(!mf.isEmpty()){  
+	                }  
+	            }  
+	        } catch (Exception e) {  
+	            e.printStackTrace();  
+	        } 
+	        
+	        
+			Upload upload=new Upload(this.request,this.request.getSession().getServletContext().getRealPath("/upload/"));
+			Map<String, String> fds = upload.getFormDatas();
+			List<FileBean> fileBeanList =upload.getFileBeanList();
 		}
 		Map<String, String[]> map = request.getParameterMap();  
 	    for(Map.Entry<String, String[]>entry:map.entrySet()){
