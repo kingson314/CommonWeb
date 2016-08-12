@@ -1,20 +1,24 @@
 package framework.base.controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.fileupload.DiskFileUpload;
-import org.apache.commons.fileupload.FileItem;
+
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import common.util.conver.UtilConver;
+import common.util.file.UtilFile;
 import common.util.json.UtilJackSon;
 import common.util.log.UtilLog;
 import common.util.string.UtilString;
@@ -128,42 +132,47 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 	 * @return ReqData 返回类型
 	 * @throws
 	 */
-	@SuppressWarnings( { "deprecation", "unchecked" })
+	@SuppressWarnings("unchecked")
 	private void getHttpServletRequestData() {
+		
 		String charsetName = request.getCharacterEncoding();
 		if (charsetName == null) {
 			charsetName = "utf-8";
 		}
-		String contentType = request.getContentType();
-		String reMethod = request.getMethod();
-
-		if ((contentType != null) && (contentType.startsWith("multipart/form-data")) && (reMethod.equalsIgnoreCase("post"))) {
-			// 二进制 multipart/form-data
-			DiskFileUpload df = new DiskFileUpload();
-			df.setHeaderEncoding(charsetName);
-			// 上传文件的最大字节数（可设得很大，唯一的不良影响是网页反应时间较长）
-			df.setSizeMax(100 * 1024 * 1024);
-			// 内存Buffer的最大字节数（不可以设得太大，否则会占用JVM内存而导致溢出，但太小则会使上传时间拖长）
-			df.setSizeThreshold(1 * 1024 * 1024);
-			List<?> reqPars = null;
-			try {
-				reqPars = df.parseRequest(request);
-				this.listUpload = new ArrayList<HashMap<String, Object>>();
-				for (int i = 0; i < reqPars.size(); i++) {
-					FileItem it = (FileItem) reqPars.get(i);
-					if (it.isFormField()) {
-						String name = it.getFieldName();
-						if (name.equals("method")) {
-
-						} else {
-							this.mapParams.put(it.getFieldName(), it.getString(charsetName).trim());// 文本字段需要转码
-						}
-					}
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		if (isMultipart) {
+			List<MultipartFile> listUpload=new ArrayList<MultipartFile>();
+			// 转换成多部分request
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+			// 取得request中的所有文件名
+			Iterator<String> iter = multiRequest.getFileNames();
+			while (iter.hasNext()) {
+				MultipartFile file = multiRequest.getFile(iter.next());
+				if (file != null) {
+					listUpload.add(file);
 				}
-
-			} catch (Exception e) {
-				UtilLog.logError("解析二进制form时出错：", e);
+//				// 记录上传过程起始时的时间，用来计算上传时间
+//				int pre = (int) System.currentTimeMillis();
+//				// 取得上传文件
+//				MultipartFile file = multiRequest.getFile(iter.next());
+//				if (file != null) {
+//					// 取得当前上传文件的文件名称
+//					String myFileName = file.getOriginalFilename();
+//					// 如果名称不为“”,说明该文件存在，否则说明该文件不存在
+//					if (myFileName.trim() != "") {
+//						System.out.println(myFileName);
+//						// 重命名上传后的文件名
+//						String fileName = file.getOriginalFilename();
+//						// 定义上传路径
+//						String filePath = UploadPath + "/" + fileName;
+//						UtilFile.writeFile(filePath, file.getBytes());
+//					}
+//				}
+//				// 记录上传该文件后的时间
+//				int finaltime = (int) System.currentTimeMillis();
+//				System.out.println(finaltime - pre);
 			}
+			this.mapParams.put("listUpload", listUpload);
 		}
 		Map<String, String[]> map = request.getParameterMap();  
 	    for(Map.Entry<String, String[]>entry:map.entrySet()){

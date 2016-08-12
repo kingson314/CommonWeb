@@ -1,9 +1,11 @@
 package common.util.file;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -222,6 +224,29 @@ public class UtilFile {
 		} finally {
 		}
 
+	}
+	
+	// 写文本文件
+	public synchronized static void writeFile(String filePath, byte[] content) throws IOException {
+		BufferedOutputStream bos = null;
+		try {
+			File file = new File(filePath);
+			// 判断文件路径是否存在
+			if (!file.getParentFile().exists()) {
+				// 文件路径不存在时，创建保存文件所需要的路径
+				file.getParentFile().mkdirs();
+			}
+			// 创建文件（这是个空文件，用来写入上传过来的文件的内容）
+			file.createNewFile();
+			bos = new BufferedOutputStream(new FileOutputStream(file));
+			bos.write(content);
+		} catch (FileNotFoundException e) {
+			throw new FileNotFoundException("文件不存在。");
+		} finally {
+			if (null != bos) {
+				bos.close();
+			}
+		}
 	}
 
 	// 获取所有的文件路径
