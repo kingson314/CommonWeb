@@ -2,6 +2,7 @@ package framework.base.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,28 +11,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-<<<<<<< HEAD
-
-=======
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
->>>>>>> 5aae4e3874a423c4b8ce7d3b202e2149fbb6412b
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import common.util.conver.UtilConver;
-import common.util.file.UtilFile;
 import common.util.json.UtilJackSon;
 import common.util.log.UtilLog;
 import common.util.string.UtilString;
-
 import framework.base.entity.SuperEntity;
 import framework.base.support.Result;
-import framework.base.support.upload.FileBean;
-import framework.base.support.upload.Upload;
 
 public abstract class BaseContorller<Entity extends SuperEntity> {
 
@@ -140,10 +129,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 	 * @return ReqData 返回类型
 	 * @throws
 	 */
-<<<<<<< HEAD
 	@SuppressWarnings("unchecked")
-=======
->>>>>>> 5aae4e3874a423c4b8ce7d3b202e2149fbb6412b
 	private void getHttpServletRequestData() {
 		
 		String charsetName = request.getCharacterEncoding();
@@ -152,7 +138,6 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 		}
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 		if (isMultipart) {
-<<<<<<< HEAD
 			List<MultipartFile> listUpload=new ArrayList<MultipartFile>();
 			// 转换成多部分request
 			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
@@ -185,24 +170,6 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 //				System.out.println(finaltime - pre);
 			}
 			this.mapParams.put("listUpload", listUpload);
-=======
-			// 转型为MultipartHttpRequest  
-	        try {  
-	            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;  
-	            List<MultipartFile> fileList = multipartRequest.getFiles("file");  
-	            for (MultipartFile mf : fileList) {  
-	                if(!mf.isEmpty()){  
-	                }  
-	            }  
-	        } catch (Exception e) {  
-	            e.printStackTrace();  
-	        } 
-	        
-	        
-			Upload upload=new Upload(this.request,this.request.getSession().getServletContext().getRealPath("/upload/"));
-			Map<String, String> fds = upload.getFormDatas();
-			List<FileBean> fileBeanList =upload.getFileBeanList();
->>>>>>> 5aae4e3874a423c4b8ce7d3b202e2149fbb6412b
 		}
 		Map<String, String[]> map = request.getParameterMap();  
 	    for(Map.Entry<String, String[]>entry:map.entrySet()){
