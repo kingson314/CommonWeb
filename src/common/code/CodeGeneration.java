@@ -10,7 +10,25 @@ import common.util.log.UtilLog;
  */
 public class CodeGeneration {
 	public static void main(String[] args) {
-		
+		CreateSysDepartment();
+		//CreateSysUser();
+
+	}
+	
+	private static void  CreateSysDepartment(){
+		Entity entity=new Entity();
+		entity.setTableName("sys_department");
+		entity.setEntityName("SysDepartment");
+		entity.setPackagePath("com.system.sysdepartment");
+		entity.setBasePathSrc("F:\\GitHub\\Repository\\src\\com\\system");
+		entity.setBaseUrl("/sysdepartment");
+		entity.setMenuName("页面配置");
+		entity.init();
+		UtilLog.logDebug(entity.getEntityName());
+		create(entity);
+	}
+	
+	private static void  CreateSysUser(){
 		Entity entity=new Entity();
 		entity.setTableName("sys_user");
 		entity.setEntityName("SysUser");
@@ -20,7 +38,10 @@ public class CodeGeneration {
 		entity.setMenuName("页面配置");
 		entity.init();
 		UtilLog.logDebug(entity.getEntityName());
-		
+		create(entity);
+	}
+	
+	private static void create(Entity entity){
 		//entity
 		StringBuilder codeEntity=CodeEntity.getInstance().getCode(entity);
 		if(UtilFile.exists(entity.getPathEntity())){

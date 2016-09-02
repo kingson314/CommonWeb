@@ -1,6 +1,7 @@
 package common.code;
 
 import common.util.conver.UtilConver;
+import framework.base.support.Result;
 
 /**
  * @Description:
@@ -42,7 +43,7 @@ public class CodeController {
 		sb.append("                                                                                  \n");
 		sb.append("	@RequestMapping(\"list\")                                               \n");
 		sb.append("	public void list() {                                                     \n");
-		sb.append("		Result result = this."+entity.getEntityName().toLowerCase()+"Service.list(1, 10, \"from "+entity.getEntityName()+"\", null);   \n");
+		sb.append("		Result result = this."+entity.getEntityName().toLowerCase()+"Service.list(this.pager.getPageIndex(), this.pager.getPageSize(), this.mapParams);   \n");
 		sb.append("		this.print(result);                                                  \n");
 		sb.append("	}                                                                        \n");
 		sb.append("                                                                                  \n");
