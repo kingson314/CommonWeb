@@ -25,26 +25,29 @@ import org.hibernate.annotations.GenericGenerator;
 public class SuperEntity implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	 @GeneratedValue(generator = "system-uuid")
-	 @GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	//@GeneratedValue(generator = "guid")
 	//@GenericGenerator(name = "guid", strategy = "guid")
 	// 实体的主键Id
+	@Column(nullable = false,length = 40)
 	protected String id;
 	// 创建日期
-	@Transient  
+	@Column(columnDefinition="timestamp default CURRENT_TIMESTAMP")
 	protected Date createDate;
 	// 更新日期
-	@Transient  
+	@Column(columnDefinition="timestamp")
 	protected Date modifyDate;
 	// 创建人
+	@Column(length = 40)
 	protected String createUserId;
 	// 更新人
+	@Column(length = 40)
 	protected String modifyUserId;
 	// 版本号
+	@Column(length = 10)
 	protected String version;
 
-	@Column(name = "id")
 	public String getId() {
 		return id;
 	}
@@ -53,7 +56,6 @@ public class SuperEntity implements Serializable, Cloneable {
 		this.id = id;
 	}
 
-	@Column(name = "createDate")
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -62,7 +64,6 @@ public class SuperEntity implements Serializable, Cloneable {
 		this.createDate = createDate;
 	}
 
-	@Column(name = "modifyDate")
 	public Date getModifyDate() {
 		return modifyDate;
 	}
@@ -71,7 +72,6 @@ public class SuperEntity implements Serializable, Cloneable {
 		this.modifyDate = modifyDate;
 	}
 
-	@Column(name = "createUserId")
 	public String getCreateUserId() {
 		return createUserId;
 	}
@@ -80,7 +80,6 @@ public class SuperEntity implements Serializable, Cloneable {
 		this.createUserId = createUserId;
 	}
 
-	@Column(name = "modifyUserId")
 	public String getModifyUserId() {
 		return modifyUserId;
 	}
@@ -89,8 +88,6 @@ public class SuperEntity implements Serializable, Cloneable {
 		this.modifyUserId = modifyUserId;
 	}
 
-	@Version
-	@Column(name = "version")
 	public String getVersion() {
 		return version;
 	}
@@ -98,5 +95,4 @@ public class SuperEntity implements Serializable, Cloneable {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-
 }

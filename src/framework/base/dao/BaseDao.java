@@ -20,6 +20,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.Work;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,6 @@ import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import common.util.conver.UtilConver;
 import common.util.jdbc.UtilSql;
 import common.util.string.UtilString;
-import framework.base.entity.BaseEntity;
 import framework.base.entity.SuperEntity;
 import framework.base.support.Result;
 
@@ -170,6 +170,59 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 	}
 
 	@SuppressWarnings("unchecked")
+	public Result list(Map<String, Object> map) {
+		Criteria criteria = this.getSession().createCriteria(this.getEntityClass());
+		if (map != null) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				String key=entry.getKey();
+				String value=entry.getValue().toString();
+				if (key.toString().indexOf("begdate_") >= 0) {//查询日期区间时，字段名须加上begadte_ 和enddate_
+					criteria.add(Restrictions.ge(key.replace("begdate_", ""), value));
+				}else if (key.toString().indexOf("enddate_") >= 0) {
+					criteria.add(Restrictions.le(key.replace("begdate_", ""), value));
+				}else if (value.indexOf("%") >= 0) {
+					criteria.add(Restrictions.like(key, value));
+				} else {
+					criteria.add(Restrictions.eq(key, value));
+				}
+			}
+		}
+		// 获取根据条件分页查询的总行数
+		Object rowCount = criteria.setProjection(Projections.rowCount()).uniqueResult();
+		criteria.setProjection(null);
+		List<Object> list = criteria.list();
+		return new Result(list, Integer.valueOf(rowCount.toString()));
+	}
+
+	
+	@SuppressWarnings("unchecked")
+	public Result list(int pageNo, int pageSize, Map<String, Object> map) {
+		Criteria criteria = this.getSession().createCriteria(this.getEntityClass());
+		if (map != null) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				String key=entry.getKey();
+				String value=entry.getValue().toString();
+				if (key.toString().indexOf("begdate_") >= 0) {//查询日期区间时，字段名须加上begadte_ 和enddate_
+					criteria.add(Restrictions.ge(key.replace("begdate_", ""), value));
+				}else if (key.toString().indexOf("enddate_") >= 0) {
+					criteria.add(Restrictions.le(key.replace("begdate_", ""), value));
+				}else if (value.indexOf("%") >= 0) {
+					criteria.add(Restrictions.like(key, value));
+				} else {
+					criteria.add(Restrictions.eq(key, value));
+				}
+			}
+		}
+		// 获取根据条件分页查询的总行数
+		Object rowCount = criteria.setProjection(Projections.rowCount()).uniqueResult();
+		criteria.setProjection(null);
+		criteria.setFirstResult((pageNo - 1) * pageSize);
+		criteria.setMaxResults(pageSize);
+		List<Object> list = criteria.list();
+		return new Result(list, Integer.valueOf(rowCount.toString()));
+	}
+	
+	@SuppressWarnings("unchecked")
 	public Result list(int pageNo, int pageSize, Criterion... criterions) {
 		Criteria criteria = this.getSession().createCriteria(this.getEntityClass());
 		if (criterions != null) {
@@ -189,8 +242,7 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> listTree(String tableName, String parentIdStartWith, Map<String, Object> mapParams) {
-		String sql = "select * from  " + tableName + " start with parentid='" + parentIdStartWith
-				+ "'	connect by  prior  id=parentid	order  siblings by ord";
+		String sql = "select * from  " + tableName + " start with parentid='" + parentIdStartWith + "'	connect by  prior  id=parentid	order  siblings by ord";
 		Query query = this.getSession().createSQLQuery(sql);
 		query.setResultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP);
 		if (mapParams != null) {
@@ -236,30 +288,30 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 		return listTree;
 	}
 
-	public List<Entity> listTreeEntity(String topSql, String childSql,Object[] params) {
+	public List<Entity> listTreeEntity(String topSql, String childSql, Object[] params) {
 		List<Entity> listEntity = new ArrayList<Entity>();
-		List<Entity> list = this.list(topSql,params);
+		List<Entity> list = this.list(topSql, params);
 		for (Entity entity : list) {
 			listEntity.add(entity);
-			getChildrenEntity(listEntity,  entity.getId(),childSql);
+			getChildrenEntity(listEntity, entity.getId(), childSql);
 		}
 		return listEntity;
 	}
-	
-	private void getChildrenEntity(List<Entity> listEntity,String id ,String childSql) {
-		List<Entity> list = this.list(childSql,new Object[]{id});
+
+	private void getChildrenEntity(List<Entity> listEntity, String id, String childSql) {
+		List<Entity> list = this.list(childSql, new Object[] { id });
 		if (list.size() > 0) {
 			for (Entity entity : list) {
 				listEntity.add(entity);
-				String pId =entity.getId();
-				getChildrenEntity(listEntity,pId, childSql);
+				String pId = entity.getId();
+				getChildrenEntity(listEntity, pId, childSql);
 			}
 		}
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Entity> listTree(String parentIdStartWith) {
-		String sql = "select * from " + this.getTableName() + " start with parentId='" + parentIdStartWith
-				+ "'	connect by  prior  id=parentId	order  siblings by ord";
+		String sql = "select * from " + this.getTableName() + " start with parentId='" + parentIdStartWith + "'	connect by  prior  id=parentId	order  siblings by ord";
 		Query query = this.getSession().createSQLQuery(sql).addEntity(this.getEntityClass());
 		return query.list();
 	}
@@ -372,7 +424,7 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 				if (param.length() > 0)
 					param = param.substring(0, param.length() - 1);
 			}
-			con =  this.getConnection();
+			con = this.getConnection();
 			ps = con.prepareCall("{ call " + procedureName + "(" + param + ")" + "	 }");
 			if (arrParam != null) {
 				for (int i = 0; i < arrParam.length; i++) {
@@ -443,8 +495,7 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 									// System.out.println(params[i][2]);
 									// System.out.println(UtilString.isNil(params[i][3]));
 									if (arrParam[i][2].equalsIgnoreCase("in")) {
-										UtilSql.setParams(ps, UtilString.isNil(arrParam[i][3]), UtilString.isNil(arrParam[i][1]), i + 1,
-												arrParam[i][4]);
+										UtilSql.setParams(ps, UtilString.isNil(arrParam[i][3]), UtilString.isNil(arrParam[i][1]), i + 1, arrParam[i][4]);
 										mapRs.put(arrParam[i][0], arrParam[i][3] == null ? "" : arrParam[i][3]);
 									} else if (arrParam[i][2].equalsIgnoreCase("out")) {
 										if (arrParam[i][1].equalsIgnoreCase("varchar") || arrParam[i][1].equalsIgnoreCase("String")) {
@@ -491,47 +542,33 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 
 	/** *操作类** */
 	public Entity saveOrUpdate(Entity entity) {
-		if (entity instanceof BaseEntity) {
-			((BaseEntity) entity).setCreateDate(new Date());
-			((BaseEntity) entity).setVersion("");
-			((BaseEntity) entity).setModifyDate(new Date());
-			((BaseEntity) entity).setCreateUserId("");
-			((BaseEntity) entity).setModifyUserId("");
+		entity.setModifyDate(new Date());
+		if ("".equals(UtilString.isNil(entity.getId()))) {
+			entity.setId(null);
+			entity.setCreateDate(new Date());
 		}
-		entity.setId(UtilString.isNil(entity.getId(),null));
 		getSession().saveOrUpdate(entity);
 		getSession().flush();
 		return entity;
 	}
-	
+
 	public Entity save(Entity entity) {
-		if (entity instanceof SuperEntity) {
-			((SuperEntity) entity).setCreateDate(new Date());
-			((SuperEntity) entity).setVersion("");
-			((SuperEntity) entity).setModifyDate(new Date());
-			((SuperEntity) entity).setCreateUserId("");
-			((SuperEntity) entity).setModifyUserId("");
-		}
+		entity.setCreateDate(new Date());
+		entity.setModifyDate(new Date());
 		getSession().save(entity);
 		getSession().flush();
 		return entity;
 	}
 
 	public Entity update(Entity entity) {
-		if (entity instanceof SuperEntity) {
-			((SuperEntity) entity).setModifyDate(new Date());
-			((SuperEntity) entity).setModifyUserId("");
-		}
+		entity.setModifyDate(new Date());
 		getSession().update(entity);
 		getSession().flush();
 		return entity;
 	}
 
 	public Entity merge(Entity entity) {
-		if (entity instanceof SuperEntity) {
-			((SuperEntity) entity).setModifyDate(new Date());
-			((SuperEntity) entity).setModifyUserId("");
-		}
+		entity.setModifyDate(new Date());
 		getSession().merge(entity);
 		getSession().flush();
 		return entity;
@@ -582,7 +619,7 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 	}
 
 	/** *直接获取值** */
-	public int getNextVal(String SequenceTable,String tableName) {
+	public int getNextVal(String SequenceTable, String tableName) {
 		tableName = tableName.toLowerCase();
 		String sql = "select nextVal from  " + SequenceTable + " where tableName='" + tableName + "'";
 		Query query = this.getSession().createSQLQuery(sql);
@@ -592,15 +629,15 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 			sql = "insert into " + SequenceTable + "(tableName,preVal,curVal,NextVal)values('" + tableName + "',-1,0,1)";
 			this.executeSql(sql);
 		} else {
-			sql = "update " + SequenceTable + " set preVal=" + (Integer.valueOf(val.toString()) - 1) + ",curVal="
-					+ Integer.valueOf(val.toString()) + ",NextVal=" + (Integer.valueOf(val.toString()) + 1) + " where tableName='" + tableName + "'";
+			sql = "update " + SequenceTable + " set preVal=" + (Integer.valueOf(val.toString()) - 1) + ",curVal=" + Integer.valueOf(val.toString()) + ",NextVal="
+					+ (Integer.valueOf(val.toString()) + 1) + " where tableName='" + tableName + "'";
 			this.executeSql(sql);
 		}
 		getSession().flush();
 		return Integer.valueOf(val.toString());
 	}
 
-	public int getPreVal(String SequenceTable,String tableName) {
+	public int getPreVal(String SequenceTable, String tableName) {
 		tableName = tableName.toLowerCase();
 		String sql = "select preVal from  " + SequenceTable + " where tableName='" + tableName + "'";
 		Query query = this.getSession().createSQLQuery(sql);
@@ -614,7 +651,7 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 		return Integer.valueOf(val.toString());
 	}
 
-	public int getCurVal(String SequenceTable,String tableName) {
+	public int getCurVal(String SequenceTable, String tableName) {
 		tableName = tableName.toLowerCase();
 		String sql = "select curVal from  " + SequenceTable + " where tableName='" + tableName + "'";
 		Query query = this.getSession().createSQLQuery(sql);

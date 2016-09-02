@@ -16,15 +16,18 @@ public class BaseEntity extends SuperEntity {
 	private static final long serialVersionUID = 1L;
 
 	// 实体记录的名称
+	@Column(length = 100)
 	protected String name;
 	// 记录状态 （0表示正常，-1 表示不可用）
+	@Column(columnDefinition="INT default 0")
 	protected int state;
 	// 排序顺序
+	@Column(columnDefinition="INT default 0")
 	protected int ord;
 	// 备注说明
+	@Column(length = 4000)
 	protected String memo;
 
-	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -33,7 +36,6 @@ public class BaseEntity extends SuperEntity {
 		this.name = name;
 	}
 
-	@Column(name = "state")
 	public int getState() {
 		return state;
 	}
@@ -42,7 +44,6 @@ public class BaseEntity extends SuperEntity {
 		this.state = state;
 	}
 
-	@Column(name = "ord")
 	public int getOrd() {
 		return ord;
 	}
@@ -51,7 +52,6 @@ public class BaseEntity extends SuperEntity {
 		this.ord = ord;
 	}
 
-	@Column(name = "memo")
 	public String getMemo() {
 		return memo;
 	}

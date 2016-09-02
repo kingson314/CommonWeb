@@ -12,11 +12,11 @@ public class CodeGeneration {
 	public static void main(String[] args) {
 		
 		Entity entity=new Entity();
-		entity.setTableName("patentwipo");
-		entity.setEntityName("WIPO");
-		entity.setPackagePath("com.patent.wipo");
-		entity.setBasePathSrc("D:\\GitHub\\Repository\\src\\com\\patent\\");
-		entity.setBaseUrl("/wipo");
+		entity.setTableName("sys_user");
+		entity.setEntityName("SysUser");
+		entity.setPackagePath("com.system.sysuser");
+		entity.setBasePathSrc("D:\\GitHub\\Repository\\src\\com\\system");
+		entity.setBaseUrl("/sysuser");
 		entity.setMenuName("页面配置");
 		entity.init();
 		UtilLog.logDebug(entity.getEntityName());

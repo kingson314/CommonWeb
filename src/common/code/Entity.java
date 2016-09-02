@@ -16,10 +16,6 @@ public class Entity {
 	private String basePathSrc;
 	//Src代码包路径
 	private String packagePath;
-	//ExtJs的类包路径
-	private String extjsPackagePath;
-	// 存放在Extjs的基本路径
-	private String basePathExtjs;
 	// 基本路径 比如 /system/user
 	private String baseUrl;
 	// 类型：grid、tree、treeGrid
@@ -49,7 +45,7 @@ public class Entity {
 	private String menuUrl;
 
 	public void init() {
-		this.entityName=UtilString.upperFirstChar(this.entityName);
+		this.entityName=this.entityName;//UtilString.upperFirstChar(this.entityName);
 		if (this.basePathSrc.lastIndexOf("/") < 0) {
 			this.basePathSrc += "/";
 		}
@@ -110,13 +106,6 @@ public class Entity {
 		this.basePathSrc = basePathSrc;
 	}
 
-	public String getBasePathExtjs() {
-		return basePathExtjs;
-	}
-
-	public void setBasePathExtjs(String basePathExtjs) {
-		this.basePathExtjs = basePathExtjs;
-	}
 
 	public String getBaseUrl() {
 		return baseUrl;
@@ -197,13 +186,5 @@ public class Entity {
 
 	public void setPackagePath(String packagePath) {
 		this.packagePath = packagePath;
-	}
-
-	public String getExtjsPackagePath() {
-		return extjsPackagePath;
-	}
-
-	public void setExtjsPackagePath(String extjsPackagePath) {
-		this.extjsPackagePath = extjsPackagePath;
 	}
 }

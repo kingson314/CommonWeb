@@ -20,6 +20,7 @@ import common.util.json.UtilJackSon;
 import common.util.log.UtilLog;
 import common.util.string.UtilString;
 import framework.base.entity.SuperEntity;
+import framework.base.support.Pager;
 import framework.base.support.Result;
 
 public abstract class BaseContorller<Entity extends SuperEntity> {
@@ -28,7 +29,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 	protected HttpServletResponse response;
 	protected HttpSession session;
 	protected Map<String, Object> mapParams ;//非分页的其他参数
-	protected Map<String, Integer> pageParams ;//分页参数 [pageSize,start,end,pageIndex]4个关键字
+	protected Pager pager;//分页参数 [pageSize,start,end,pageIndex]4个关键字
 	protected List<HashMap<String, Object>> listUpload = null;
 
 	@ModelAttribute
@@ -37,7 +38,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 		this.response = response;
 		this.session = this.request.getSession();
 		this.mapParams= new HashMap<String, Object>();
-		this.pageParams=new HashMap<String,Integer>();
+		this.pager=new Pager();
 		this.getHttpServletRequestData();
 	}
 
@@ -174,8 +175,14 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 		Map<String, String[]> map = request.getParameterMap();  
 	    for(Map.Entry<String, String[]>entry:map.entrySet()){
 	    	if("_".equals(entry.getKey().trim()))continue;
-	    	if("pageNumber".equals(entry.getKey())||"offset".equals(entry.getKey())||"pageSize".equals(entry.getKey())||"pageIndex".equals(entry.getKey())||"start".equals(entry.getKey())||"end".equals(entry.getKey())){
-	    		this.pageParams.put(entry.getKey(),Integer.valueOf(entry.getValue()[0]));
+	    	if("pageIndex".equals(entry.getKey())){
+	    		pager.setPageIndex(Integer.valueOf(entry.getValue()[0]));
+	    	}else if("pageSize".equals(entry.getKey())){
+	    		pager.setPageSize(Integer.valueOf(entry.getValue()[0]));
+	    	}else if("start".equals(entry.getKey())){
+	    		pager.setStart(Integer.valueOf(entry.getValue()[0]));
+	    	}else if("end".equals(entry.getKey())){
+	    		pager.setEnd(Integer.valueOf(entry.getValue()[0]));
 	    	}else{
 	        	if(entry.getValue()!=null){
 	        		if(entry.getKey().endsWith("[]")){

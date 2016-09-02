@@ -174,7 +174,7 @@ public class UtilConver {
 			}
 		} catch (Exception e) {
 			// Log.logInfo(propertyName + " 字段没转换");
-			e.printStackTrace();
+//			e.printStackTrace();
 			System.out.println(propertyName + " 字段没转换");
 		}
 	}

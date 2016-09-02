@@ -33,7 +33,11 @@ public interface IBaseService<Entity extends SuperEntity> {
 	public List<Entity> list(String hql, Object[] params);
 
 	public List<Entity> list(String hql, Map<String, Object> mapParams);
-
+	
+	public Result list(Map<String, Object> map);
+	
+	public Result list(int pageNo, int pageSize,Map<String, Object> map);
+	
 	public Result list(int pageNo, int pageSize, String hql, Map<String, Object> map);
 
 	public Result list(int pageNo, int pageSize, Criterion... criterions);
