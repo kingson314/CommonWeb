@@ -14,7 +14,7 @@ public class CodeGeneration {
 		final String projectBasePath=System.getProperty("user.dir").replace("CommonWeb", "Repository");
 		//配置项
 		String packpageParent="system";//本类的所属分类，即上一层包名称
-		String tablename="sys_department";//表名称
+		String tablename="sys_role";//表名称
 		String menuName="";
 		//----------
 		Entity entity=new Entity();

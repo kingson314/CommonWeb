@@ -1,8 +1,6 @@
 package common.code;
 
 import common.util.conver.UtilConver;
-import framework.base.support.Result;
-
 /**
  * @Description:
  * @date Feb 23, 2014
@@ -43,14 +41,14 @@ public class CodeController {
 		sb.append("                                                                                  \n");
 		sb.append("	@RequestMapping(\"list\")                                               \n");
 		sb.append("	public void list() {                                                     \n");
-		sb.append("		Result result = this."+entity.getEntityName().toLowerCase()+"Service.list(this.pager.getPageIndex(), this.pager.getPageSize(), this.mapParams);   \n");
+		sb.append("		Result result = this."+entity.getEntityName().toLowerCase()+"Service.list(thisbaseParams.getPageIndex(), thisbaseParams.getPageSize(), this.mapParams);   \n");
 		sb.append("		this.print(result);                                                  \n");
 		sb.append("	}                                                                        \n");
 		sb.append("                                                                                  \n");
 		
 		sb.append("	@RequestMapping(\"get\")                                               \n");
 		sb.append("	public void get() {                                                     \n");
-		sb.append("		this."+entity.getEntityName().toLowerCase()+"Service.get(this.params.getId()[0]);\n");
+		sb.append("		this."+entity.getEntityName().toLowerCase()+"Service.get(this.baseParams.getId()[0]);\n");
 		sb.append("		this.print(new Result(true));                                        \n");
 		sb.append("	}                                                                        \n");
 		sb.append("                                                                                  \n");

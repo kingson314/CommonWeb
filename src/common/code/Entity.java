@@ -1,7 +1,5 @@
 package common.code;
 
-import common.util.string.UtilString;
-
 /**
  * @Description: 代码生成所需的实体参数类
  * @date Feb 23, 2014
@@ -44,8 +42,7 @@ public class Entity {
 	// 配置sys_menu表的url路径
 	private String menuUrl;
 
-	public void init() {
-		this.entityName=this.entityName;//(this.entityName);
+	public void init() { 
 		if (this.basePathSrc.lastIndexOf("/") < 0) {
 			this.basePathSrc += "/";
 		}
