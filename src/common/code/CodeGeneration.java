@@ -11,33 +11,12 @@ import common.util.string.UtilString;
  */
 public class CodeGeneration {
 	public static void main(String[] args) {
-<<<<<<< HEAD
 		final String projectBasePath=System.getProperty("user.dir").replace("CommonWeb", "Repository");
 		//配置项
 		String packpageParent="system";//本类的所属分类，即上一层包名称
 		String tablename="sys_department";//表名称
+		String menuName="";
 		//----------
-=======
-		CreateSysDepartment();
-		//CreateSysUser();
-
-	}
-	
-	private static void  CreateSysDepartment(){
-		Entity entity=new Entity();
-		entity.setTableName("sys_department");
-		entity.setEntityName("SysDepartment");
-		entity.setPackagePath("com.system.sysdepartment");
-		entity.setBasePathSrc("F:\\GitHub\\Repository\\src\\com\\system");
-		entity.setBaseUrl("/sysdepartment");
-		entity.setMenuName("页面配置");
-		entity.init();
-		UtilLog.logDebug(entity.getEntityName());
-		create(entity);
-	}
-	
-	private static void  CreateSysUser(){
->>>>>>> f94fefdb694b4c3165d726961f834fd07311df4c
 		Entity entity=new Entity();
 		String[] tableNameArr=tablename.split("_");
 		String entityName=UtilString.upperFirstChar(tableNameArr[0])+UtilString.upperFirstChar(tableNameArr[1]);
@@ -49,7 +28,7 @@ public class CodeGeneration {
 		entity.setPackagePath(packagePath);
 		entity.setBasePathSrc(basePathSrc);
 		entity.setBaseUrl(baseUrl);
-		entity.setMenuName("页面配置");
+		entity.setMenuName(menuName);
 		entity.init();
 		UtilLog.logDebug(entity.getEntityName());
 		create(entity);
