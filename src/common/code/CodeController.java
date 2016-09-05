@@ -46,6 +46,14 @@ public class CodeController {
 		sb.append("		this.print(result);                                                  \n");
 		sb.append("	}                                                                        \n");
 		sb.append("                                                                                  \n");
+		
+		sb.append("	@RequestMapping(\"get\")                                               \n");
+		sb.append("	public void get() {                                                     \n");
+		sb.append("		this."+entity.getEntityName().toLowerCase()+"Service.get(this.params.getId()[0]);\n");
+		sb.append("		this.print(new Result(true));                                        \n");
+		sb.append("	}                                                                        \n");
+		sb.append("                                                                                  \n");
+		
 		sb.append("	@RequestMapping(\"save\")                                               \n");
 		sb.append("	public void save() {                                                     \n");
 		sb.append("		this."+entity.getEntityName().toLowerCase()+"Service.save(this.getEntity());                             \n");

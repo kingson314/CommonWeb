@@ -2,6 +2,7 @@ package common.code;
 
 import common.util.file.UtilFile;
 import common.util.log.UtilLog;
+import common.util.string.UtilString;
 
 /**
  * @Description: 针对she框架的代码生产工具
@@ -10,13 +11,22 @@ import common.util.log.UtilLog;
  */
 public class CodeGeneration {
 	public static void main(String[] args) {
-		
+		final String projectBasePath=System.getProperty("user.dir").replace("CommonWeb", "Repository");
+		//配置项
+		String packpageParent="system";//本类的所属分类，即上一层包名称
+		String tablename="sys_department";//表名称
+		//----------
 		Entity entity=new Entity();
-		entity.setTableName("sys_user");
-		entity.setEntityName("SysUser");
-		entity.setPackagePath("com.system.sysuser");
-		entity.setBasePathSrc("D:\\GitHub\\Repository\\src\\com\\system");
-		entity.setBaseUrl("/sysuser");
+		String[] tableNameArr=tablename.split("_");
+		String entityName=UtilString.upperFirstChar(tableNameArr[0])+UtilString.upperFirstChar(tableNameArr[1]);
+		String baseUrl="/"+tablename.replace("_", "")+"/";
+		String packagePath="com."+packpageParent+"."+tablename.replace("_", "");
+		String basePathSrc=projectBasePath+"\\src\\com\\"+packpageParent;
+		entity.setTableName(tablename);
+		entity.setEntityName(entityName);
+		entity.setPackagePath(packagePath);
+		entity.setBasePathSrc(basePathSrc);
+		entity.setBaseUrl(baseUrl);
 		entity.setMenuName("页面配置");
 		entity.init();
 		UtilLog.logDebug(entity.getEntityName());

@@ -45,17 +45,17 @@ public class Entity {
 	private String menuUrl;
 
 	public void init() {
-		this.entityName=this.entityName;//UtilString.upperFirstChar(this.entityName);
+		this.entityName=this.entityName;//(this.entityName);
 		if (this.basePathSrc.lastIndexOf("/") < 0) {
 			this.basePathSrc += "/";
 		}
-		this.pathController = this.basePathSrc + this.entityName.toLowerCase() + "/controller/" + UtilString.upperFirstChar(this.entityName) + "Controller.java";
-		this.pathIDao = this.basePathSrc + this.entityName.toLowerCase() + "/dao/I" + UtilString.upperFirstChar(this.entityName) + "Dao.java";
-		this.pathDao = this.basePathSrc + this.entityName.toLowerCase() + "/dao/" + UtilString.upperFirstChar(this.entityName) + "Dao.java";
-		this.pathEntity = this.basePathSrc + this.entityName.toLowerCase() + "/entity/" + UtilString.upperFirstChar(this.entityName) + ".java";
+		this.pathController = this.basePathSrc + this.entityName.toLowerCase() + "/controller/" + (this.entityName) + "Controller.java";
+		this.pathIDao = this.basePathSrc + this.entityName.toLowerCase() + "/dao/I" + (this.entityName) + "Dao.java";
+		this.pathDao = this.basePathSrc + this.entityName.toLowerCase() + "/dao/" + (this.entityName) + "Dao.java";
+		this.pathEntity = this.basePathSrc + this.entityName.toLowerCase() + "/entity/" + (this.entityName) + ".java";
 		this.pathHibernate = this.basePathSrc + this.entityName.toLowerCase() + "/entity/hibernate.xml";
-		this.pathIService= this.basePathSrc + this.entityName.toLowerCase() + "/service/I" + UtilString.upperFirstChar(this.entityName) + "Service.java";
-		this.pathService = this.basePathSrc + this.entityName.toLowerCase() + "/service/" + UtilString.upperFirstChar(this.entityName) + "Service.java";
+		this.pathIService= this.basePathSrc + this.entityName.toLowerCase() + "/service/I" + (this.entityName) + "Service.java";
+		this.pathService = this.basePathSrc + this.entityName.toLowerCase() + "/service/" + (this.entityName) + "Service.java";
 	}
 
 	public String getTableName() {

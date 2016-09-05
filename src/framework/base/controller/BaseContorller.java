@@ -20,7 +20,7 @@ import common.util.json.UtilJackSon;
 import common.util.log.UtilLog;
 import common.util.string.UtilString;
 import framework.base.entity.SuperEntity;
-import framework.base.support.Pager;
+import framework.base.support.BaseParams;
 import framework.base.support.Result;
 
 public abstract class BaseContorller<Entity extends SuperEntity> {
@@ -28,8 +28,8 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected HttpSession session;
-	protected Map<String, Object> mapParams ;//非分页的其他参数
-	protected Pager pager;//分页参数 [pageSize,start,end,pageIndex]4个关键字
+	protected Map<String, Object> mapParams ;//非常规的其他参数
+	protected BaseParams baseParams;//常规参数 [pageSize,start,end,pageIndex,id]5个关键字
 	protected List<HashMap<String, Object>> listUpload = null;
 
 	@ModelAttribute
@@ -38,7 +38,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 		this.response = response;
 		this.session = this.request.getSession();
 		this.mapParams= new HashMap<String, Object>();
-		this.pager=new Pager();
+		this.baseParams=new BaseParams();
 		this.getHttpServletRequestData();
 	}
 
@@ -176,13 +176,15 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 	    for(Map.Entry<String, String[]>entry:map.entrySet()){
 	    	if("_".equals(entry.getKey().trim()))continue;
 	    	if("pageIndex".equals(entry.getKey())){
-	    		pager.setPageIndex(Integer.valueOf(entry.getValue()[0]));
+	    		baseParams.setPageIndex(Integer.valueOf(entry.getValue()[0]));
 	    	}else if("pageSize".equals(entry.getKey())){
-	    		pager.setPageSize(Integer.valueOf(entry.getValue()[0]));
+	    		baseParams.setPageSize(Integer.valueOf(entry.getValue()[0]));
 	    	}else if("start".equals(entry.getKey())){
-	    		pager.setStart(Integer.valueOf(entry.getValue()[0]));
+	    		baseParams.setStart(Integer.valueOf(entry.getValue()[0]));
 	    	}else if("end".equals(entry.getKey())){
-	    		pager.setEnd(Integer.valueOf(entry.getValue()[0]));
+	    		baseParams.setEnd(Integer.valueOf(entry.getValue()[0]));
+	    	}else if("id[]".equals(entry.getKey())){
+	    		baseParams.setId(entry.getValue());
 	    	}else{
 	        	if(entry.getValue()!=null){
 	        		if(entry.getKey().endsWith("[]")){

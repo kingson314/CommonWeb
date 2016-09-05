@@ -322,7 +322,6 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 	 * @param mapParent
 	 * @param id
 	 */
-
 	private int getChildren(Map<String, Object> mapParent, String id, String childSql) {
 		int childCount = 0;
 		String sql = String.format(childSql, id);

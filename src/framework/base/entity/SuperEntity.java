@@ -9,9 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-
 import org.hibernate.annotations.GenericGenerator;
 
 /**

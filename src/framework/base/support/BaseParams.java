@@ -1,11 +1,19 @@
 package framework.base.support;
 
-public class Pager {
+public class BaseParams {
+	private String[] id;
 	private int pageIndex;
 	private int pageSize;
 	private int start;
 	private int end;
 	
+
+	public String[] getId() {
+		return id;
+	}
+	public void setId(String[] id) {
+		this.id = id;
+	}
 	public int getPageIndex() {
 		return pageIndex;
 	}
