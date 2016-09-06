@@ -19,7 +19,9 @@ public interface IBaseService<Entity extends SuperEntity> {
 	/** *查询类** */
 
 	public Entity get(String id);
-
+	
+	public Entity get(String[] id);
+	
 	public Entity get(String hql, Object[] params);
 
 	public Entity get(String hql, Map<String, Object> map);

@@ -25,6 +25,10 @@ public abstract class BaseService<Entity extends SuperEntity> implements IBaseSe
 		return this.baseDao.get(id);
 	}
 
+	public Entity get(String[] id){
+		return this.baseDao.get(id);
+	}
+	
 	public Entity get(String hql, Object[] params) {
 		return this.baseDao.get(hql, params);
 	}

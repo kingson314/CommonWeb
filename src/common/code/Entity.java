@@ -16,7 +16,7 @@ public class Entity {
 	private String packagePath;
 	// 基本路径 比如 /system/user
 	private String baseUrl;
-	// 类型：grid、tree、treeGrid
+	// 类型：BaseEntity,SuperEntity
 	private String type;
 	// 配置sys_menu表的菜单名称
 	private String menuName;
@@ -46,13 +46,13 @@ public class Entity {
 		if (this.basePathSrc.lastIndexOf("/") < 0) {
 			this.basePathSrc += "/";
 		}
-		this.pathController = this.basePathSrc + this.entityName.toLowerCase() + "/controller/" + (this.entityName) + "Controller.java";
-		this.pathIDao = this.basePathSrc + this.entityName.toLowerCase() + "/dao/I" + (this.entityName) + "Dao.java";
-		this.pathDao = this.basePathSrc + this.entityName.toLowerCase() + "/dao/" + (this.entityName) + "Dao.java";
-		this.pathEntity = this.basePathSrc + this.entityName.toLowerCase() + "/entity/" + (this.entityName) + ".java";
-		this.pathHibernate = this.basePathSrc + this.entityName.toLowerCase() + "/entity/hibernate.xml";
-		this.pathIService= this.basePathSrc + this.entityName.toLowerCase() + "/service/I" + (this.entityName) + "Service.java";
-		this.pathService = this.basePathSrc + this.entityName.toLowerCase() + "/service/" + (this.entityName) + "Service.java";
+		this.pathController = this.basePathSrc + this.entityName + "/controller/" + (this.entityName) + "Controller.java";
+		this.pathIDao = this.basePathSrc + this.entityName + "/dao/I" + (this.entityName) + "Dao.java";
+		this.pathDao = this.basePathSrc + this.entityName + "/dao/" + (this.entityName) + "Dao.java";
+		this.pathEntity = this.basePathSrc + this.entityName + "/entity/" + (this.entityName) + ".java";
+		this.pathHibernate = this.basePathSrc + this.entityName + "/entity/hibernate.xml";
+		this.pathIService= this.basePathSrc + this.entityName + "/service/I" + (this.entityName) + "Service.java";
+		this.pathService = this.basePathSrc + this.entityName + "/service/" + (this.entityName) + "Service.java";
 	}
 
 	public String getTableName() {

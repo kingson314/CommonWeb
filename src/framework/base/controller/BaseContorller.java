@@ -199,7 +199,7 @@ public abstract class BaseContorller<Entity extends SuperEntity> {
 
 	@SuppressWarnings("unchecked")
 	public Entity getEntity() {
-		Class<?>  cl= (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-		return  (Entity) UtilConver.mapToBean(this.mapParams, cl);
+		Class<?>  cls= (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		return  (Entity) UtilConver.mapToBean(this.mapParams, cls);
 	}
 }

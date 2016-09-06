@@ -83,7 +83,10 @@ public class BaseDao<Entity extends SuperEntity> implements IBaseDao<Entity> {
 	public Entity get(String id) {
 		return (Entity) getSession().get(this.getEntityClass(), id);
 	}
-
+	@SuppressWarnings("unchecked")
+	public Entity get(String[] id) {
+		return (Entity) getSession().get(this.getEntityClass(), id[0]);
+	}
 	@SuppressWarnings("unchecked")
 	public Entity get(String hql, Object[] params) {
 		Query query = this.getSession().createQuery(hql);

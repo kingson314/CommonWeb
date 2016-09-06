@@ -20,14 +20,14 @@ public class CodeEntity {
 		StringBuilder sb = new StringBuilder();
 		sb.append("package "+entity.getPackagePath()+".entity;                     \n");
 		sb.append("	                                                               \n");
-		//sb.append("import javax.persistence.Column;                                \n");
+		sb.append("import javax.persistence.Column;                                \n");
 		sb.append("import javax.persistence.Entity;                                \n");
 		sb.append("import javax.persistence.Table;                                 \n");
-		sb.append("import framework.base.entity.BaseEntity;                    \n");
+		sb.append("import framework.base.entity."+entity.getType()+";                    \n");
 		sb.append("	                                                               \n");
 		sb.append("@Entity                                                         \n");
 		sb.append("@Table(name = \""+entity.getTableName()+"\", catalog = \"\", schema = \"\") \n");
-		sb.append("public class "+entity.getEntityName()+" extends BaseEntity {                          \n");
+		sb.append("public class "+entity.getEntityName()+" extends "+entity.getType()+" {                          \n");
 		sb.append("	private static final long serialVersionUID = 1L;               \n");
 		sb.append("}                                                               \n");
 		return sb;
